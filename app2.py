@@ -39,10 +39,10 @@ async def monitor_sensors(websocket: WebSocket):
             continue
 
         data = {
-            "temperature": temperature,
-            "humidity": humidity,
-            "flame_status": flame_status,
-            "gas_status": gas_status
+            "temperature": 25.5,
+            "humidity": 60,
+            "flame_status": "No Flame",
+            "gas_status": "Safe"
         }
 
         # Send data to WebSocket client
