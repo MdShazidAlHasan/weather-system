@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sensor Dashboard</title>
+    <link rel="stylesheet" href="/static/style2.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <h1><i class="fas fa-thermometer-half"></i> Real-Time Sensor Dashboard</h1>
+    </header>
+    <main>
+        <div class="dashboard">
+            <div class="card temperature">
+                <i class="fas fa-temperature-high icon"></i>
+                <h2>Temperature</h2>
+                <p id="temperature">-- °C</p>
+            </div>
+            <div class="card humidity">
+                <i class="fas fa-tint icon"></i>
+                <h2>Humidity</h2>
+                <p id="humidity">-- %</p>
+            </div>
+            <div class="card flame-status">
+                <i class="fas fa-fire icon"></i>
+                <h2>Flame Status</h2>
+                <p id="flame_status">--</p>
+            </div>
+            <div class="card gas-status">
+                <i class="fas fa-gas-pump icon"></i>
+                <h2>Gas Status</h2>
+                <p id="gas_status">--</p>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; MechaTronics Project Group-10</p>
+    </footer>
+
+    <script>
+        const ws = new WebSocket("ws://192.168.1.6:8000/ws");
+
+        ws.onopen = () => console.log("WebSocket connection opened");
+
+        ws.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+
+            if (data.error) {
+                console.error(data.error);
+                return;
+            }
+
+            document.getElementById("temperature").textContent = `${data.temperature} °C`;
+            document.getElementById("humidity").textContent = `${data.humidity} %`;
+            document.getElementById("flame_status").textContent = data.flame_status;
+            document.getElementById("gas_status").textContent = data.gas_status;
+        };
+
+        ws.onclose = () => console.error("WebSocket connection closed");
+    </script>
+</body>
+</html>
+
+
+           
+

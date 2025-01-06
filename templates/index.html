@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Monitoring System</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Weather Monitoring System</h1>
+
+        <!-- Display sensor data -->
+        <div class="sensor-data">
+            <p><span class="highlight">Temperature:</span> {{ temperature }} °C</p>
+            <p><span class="highlight">Humidity:</span> {{ humidity }} %</p>
+            <p><span class="highlight">Flame Detected:</span> {{ flame_status }}</p>
+        </div>
+
+        <!-- Refresh button -->
+        <a href="/" class="refresh-btn">Refresh</a>
+    </div>
+</body>
+</html>
+
