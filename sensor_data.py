@@ -1,5 +1,6 @@
 # sensor_data.py
-import Adafruit_DHT  # For reading DHT11 data
+import adafruit_dht
+import board  # For reading DHT11 data
 import RPi.GPIO as GPIO  # For reading flame sensor data
 
 # Setup the GPIO pin for the flame sensor
@@ -11,11 +12,17 @@ MQ2_PIN = 23  # Use GPIO17 (Pin 11 on the Raspberry Pi)
 # Setup GPIO
 GPIO.setup(MQ2_PIN, GPIO.IN)
 
+# Define the GPIO pin where the DHT11 data pin is connected
+DHT_PIN = board.D17  # GPIO17 (physical pin 11)
+
+
 # Function to read temperature and humidity from DHT11 sensor
 def read_temperature_and_humidity():
-    sensor = Adafruit_DHT.DHT11
-    pin = 14  # Pin where the DHT11 data pin is connected
-    humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
+    # Initialize the DHT11 sensor
+    dht_sensor = adafruit_dht.DHT11(DHT_PIN)
+
+    temperature = dht_sensor.temperature
+    humidity = dht_sensor.humidity
     
     if humidity is not None and temperature is not None:
         return round(temperature, 2), round(humidity, 2)
@@ -37,3 +44,4 @@ def read_gas_status():
     else:
         return "No gas detected."
 
+print(read_temperature_and_humidity())
