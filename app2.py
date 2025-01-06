@@ -62,7 +62,7 @@ async def monitor_sensors(websocket: WebSocket):
 # WebSocket endpoint
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
-    print("how")
+    print("WebSocket connection established")
     await monitor_sensors(websocket)
 
 # Home Route (Shows HTML page)
