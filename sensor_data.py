@@ -13,7 +13,7 @@ MQ2_PIN = 23  # Use GPIO17 (Pin 11 on the Raspberry Pi)
 GPIO.setup(MQ2_PIN, GPIO.IN)
 
 # Define the GPIO pin where the DHT11 data pin is connected
-DHT_PIN = board.D17  # GPIO17 (physical pin 11)
+DHT_PIN = board.D14  # GPIO17 (physical pin 11)
 
 
 # Function to read temperature and humidity from DHT11 sensor
