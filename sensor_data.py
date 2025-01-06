@@ -17,13 +17,18 @@ GPIO.setup(MQ2_PIN, GPIO.IN)
 
 
 # Function to read temperature and humidity from DHT11 sensor
+
 def read_temperature_and_humidity():
     # Initialize the DHT11 sensor
     # Set the sensor type to DHT11
     dht_device = adafruit_dht.DHT11(board.D14)
-    temperature = dht_device.temperature
-    humidity = dht_device.humidity
-    dht_device.exit()
+    temperature = 25
+    humidity = 75
+    try:
+        temperature = dht_device.temperature
+        humidity = dht_device.humidity
+    finally:
+        dht_device.exit()
 
     if humidity is not None and temperature is not None:
         return round(temperature, 2), round(humidity, 2)
