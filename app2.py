@@ -32,7 +32,7 @@ async def monitor_sensors(websocket: WebSocket):
         temperature, humidity = read_temperature_and_humidity()
         flame_status = read_flame_status()
         gas_status = read_gas_status()
-
+        print(temperature, humidity, flame_status, gas_status)
         if temperature is None or humidity is None:
             await websocket.send_json({"error": "Failed to read sensor data"})
             await asyncio.sleep(1)
