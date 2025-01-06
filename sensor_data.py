@@ -27,6 +27,8 @@ def read_temperature_and_humidity():
     try:
         temperature = dht_device.temperature
         humidity = dht_device.humidity
+    except RuntimeError as error:
+        print("error reading data")
     finally:
         dht_device.exit()
 
