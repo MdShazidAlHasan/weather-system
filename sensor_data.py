@@ -46,4 +46,3 @@ def read_gas_status():
     else:
         return "No gas detected."
 
-print(read_temperature_and_humidity())

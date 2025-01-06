@@ -32,17 +32,16 @@ async def monitor_sensors(websocket: WebSocket):
         temperature, humidity = read_temperature_and_humidity()
         flame_status = read_flame_status()
         gas_status = read_gas_status()
-        print(temperature, humidity, flame_status, gas_status)
         if temperature is None or humidity is None:
             await websocket.send_json({"error": "Failed to read sensor data"})
             await asyncio.sleep(1)
             continue
 
         data = {
-            "temperature": 25.5,
-            "humidity": 60,
-            "flame_status": "No Flame",
-            "gas_status": "Safe"
+            "temperature": temperature,
+            "humidity":humidity,
+            "flame_status": flame_status,
+            "gas_status": gas_status
         }
 
         # Send data to WebSocket client
@@ -62,7 +61,6 @@ async def monitor_sensors(websocket: WebSocket):
 # WebSocket endpoint
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
-    print("WebSocket connection established")
     await monitor_sensors(websocket)
 
 # Home Route (Shows HTML page)
