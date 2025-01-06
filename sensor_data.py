@@ -23,6 +23,7 @@ def read_temperature_and_humidity():
 
     temperature = dht_sensor.temperature
     humidity = dht_sensor.humidity
+    dht_sensor.exit()
 
     if humidity is not None and temperature is not None:
         return round(temperature, 2), round(humidity, 2)
