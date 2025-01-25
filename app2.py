@@ -58,9 +58,8 @@ async def monitor_sensors(websocket: WebSocket):
 
         not_open = 0
         if gas_status == "Gas detected!" and not not_open :
-            await rotate_360_counterclockwise()
+            rotate_360_counterclockwise()
             not_open = 1
-
         await asyncio.sleep(1)  # Update every 1 second
 
 # WebSocket endpoint
