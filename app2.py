@@ -68,3 +68,7 @@ async def websocket_endpoint(websocket: WebSocket):
 async def home(request: Request):
     return templates.TemplateResponse("index2.html", {"request": request})
 
+# Control Route (Shows HTML page)
+@app.get("/control", response_class=HTMLResponse)
+async def home(request: Request):
+    return templates.TemplateResponse("control.html", {"request": request})

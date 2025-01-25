@@ -9,8 +9,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
+    <div id="earth"></div>
     <header>
         <h1><i class="fas fa-thermometer-half"></i> Real-Time Sensor Dashboard</h1>
+	<div id="date-time"></div>
     </header>
     <main>
         <div class="dashboard">
@@ -41,7 +43,7 @@
     </footer>
 
     <script>
-        const ws = new WebSocket("ws://192.168.1.9:8000/ws");
+        const ws = new WebSocket("ws://192.168.1.11:8000/ws");
 
         ws.onopen = () => console.log("WebSocket connection opened");
 
@@ -60,6 +62,17 @@
         };
 
         ws.onclose = () => console.error("WebSocket connection closed");
+
+        // Real-time date and time
+        function updateDateTime() {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+            const dateTimeString = now.toLocaleDateString('en-US', options);
+            document.getElementById("date-time").textContent = dateTimeString;
+        }
+
+        setInterval(updateDateTime, 1000);
+        updateDateTime();
     </script>
 </body>
 </html>
