@@ -26,6 +26,7 @@ class SensorData(BaseModel):
 not_open = 0
 # Simulated Sensor Data
 async def monitor_sensors(websocket: WebSocket):
+    global not_open
     await websocket.accept()
     email_sent = False  # To avoid sending duplicate emails
     while True:
@@ -56,10 +57,10 @@ async def monitor_sensors(websocket: WebSocket):
         if flame_status == "No Flame":
             email_sent = False
 
-        
         if gas_status == "Gas detected!" and not not_open :
             rotate_360_counterclockwise()
             not_open = 1
+            await asyncio.sleep(2)
         await asyncio.sleep(1)  # Update every 1 second
 
 # WebSocket endpoint
