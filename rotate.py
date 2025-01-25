@@ -19,7 +19,6 @@ def rotate_360_clockwise():
     time.sleep(1)  # Adjust sleep duration based on servo speed
     pwm.ChangeDutyCycle(0)  # Stop servo
     pwm.stop()
-    GPIO.cleanup()
 
 # Function to rotate servo 360° counterclockwise
 def rotate_360_counterclockwise():
@@ -33,5 +32,4 @@ def rotate_360_counterclockwise():
     time.sleep(1)  # Adjust sleep duration based on servo speed
     pwm.ChangeDutyCycle(0)  # Stop servo
     pwm.stop()
-    GPIO.cleanup()
 
