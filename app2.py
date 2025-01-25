@@ -23,7 +23,7 @@ class SensorData(BaseModel):
     humidity: float
     flame_status: str
     gas_status: str
-
+not_open = 0
 # Simulated Sensor Data
 async def monitor_sensors(websocket: WebSocket):
     await websocket.accept()
@@ -56,7 +56,7 @@ async def monitor_sensors(websocket: WebSocket):
         if flame_status == "No Flame":
             email_sent = False
 
-        not_open = 0
+        
         if gas_status == "Gas detected!" and not not_open :
             rotate_360_counterclockwise()
             not_open = 1
