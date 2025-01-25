@@ -6,6 +6,7 @@ from pydantic import BaseModel
 from fastapi.staticfiles import StaticFiles
 from starlette.requests import Request
 from sensor_data import read_temperature_and_humidity, read_flame_status, read_gas_status  # Import sensor functions
+from rotate import rotate_360_clockwise, rotate_360_counterclockwise
 from mailer import send_email
 import asyncio
 
@@ -51,10 +52,14 @@ async def monitor_sensors(websocket: WebSocket):
         if flame_status != "No Flame" and not email_sent:
             await send_email("mdshazid121@gmail.com", "Flame Detected", "There is a serious issue")
             email_sent = True
-
         # Reset email_sent flag if flame is no longer detected
         if flame_status == "No Flame":
             email_sent = False
+
+        not_open = 0
+        if gas_status == "Gas detected!" and not not_open :
+            await rotate_360_counterclockwise()
+            not_open = 1
 
         await asyncio.sleep(1)  # Update every 1 second
 
@@ -68,7 +73,25 @@ async def websocket_endpoint(websocket: WebSocket):
 async def home(request: Request):
     return templates.TemplateResponse("index2.html", {"request": request})
 
+
 # Control Route (Shows HTML page)
+# Control Route (GET method to render the control page)
 @app.get("/control", response_class=HTMLResponse)
-async def home(request: Request):
+async def control(request: Request):
     return templates.TemplateResponse("control.html", {"request": request})
+
+@app.post("/control/open")
+async def open_control():
+    try:
+        await rotate_360_counterclockwise()  # Call the rotation function for "Open"
+        return {"status": "success", "message": "Rotated counterclockwise (Open)"}
+    except Exception as e:
+        return {"status": "error", "message": str(e)}
+
+@app.post("/control/close")
+async def close_control():
+    try:
+        await rotate_360_clockwise()  # Call the rotation function for "Close"
+        return {"status": "success", "message": "Rotated clockwise (Close)"}
+    except Exception as e:
+        return {"status": "error", "message": str(e)}
