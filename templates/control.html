@@ -78,7 +78,6 @@
     </header>
     <h1>Window Control</h1>
         <p id="window-status">Loading window status...</p>
-        <div>
     <div class="button-container">
         <button id="open-button">Open</button>
         <button id="close-button">Close</button>
@@ -87,20 +86,24 @@
         © MechaTronics Project Group-10
     </footer>
     <script>
-        async function fetchWindowStatus() {
-            try {
-                const response = await fetch('/control/status');
-                const data = await response.json();
-                if (data.status === "success") {
-                    const statusElement = document.getElementById("window-status");
-                    statusElement.innerText = `Window is currently: ${data.window_status}`;
-                } else {
-                    console.error(data.message);
-                }
-            } catch (error) {
-                console.error("Error fetching window status:", error);
+       async function fetchWindowStatus() {
+        console.log("entered")
+        try {
+            const response = await fetch('/control/status'); // GET request to /control/status
+            const data = await response.json();
+            const statusElement = document.getElementById("window-status");
+            if (data.status === "success") {
+                // Update the status text
+                statusElement.innerText = `Window is currently: ${data.window_status}`;
+            } else {
+                // Handle error in fetching status
+                statusElement.innerText = "Error fetching window status.";
+                console.error(data.message);
             }
+        } catch (error) {
+            console.error("Error fetching window status:", error);
         }
+    }
 
         // Handle Open button click
         document.getElementById("open-button").addEventListener("click", async () => {
