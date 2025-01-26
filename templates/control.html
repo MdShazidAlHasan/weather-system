@@ -86,7 +86,7 @@
         © MechaTronics Project Group-10
     </footer>
     <script>
-        // Handle Open button click
+         // Handle Open button click
         document.getElementById("open-button").addEventListener("click", async () => {
             try {
                 const response = await fetch("/control/open", {
@@ -111,40 +111,40 @@
             }
         });
         // Function to fetch the current window status
-    async function fetchWindowStatus() {
-        try {
-            const response = await fetch('/control/status'); // GET request to /control/status
-            const data = await response.json();
-            const statusElement = document.getElementById("window-status");
-            if (data.status === "success") {
-                // Update the status text
-                statusElement.innerText = `Window is currently: ${data.window_status}`;
-            } else {
-                // Handle error in fetching status
-                statusElement.innerText = "Error fetching window status.";
-                console.error(data.message);
+        async function fetchWindowStatus() {
+            try {
+                const response = await fetch('/control/status'); // GET request to /control/status
+                const data = await response.json();
+                const statusElement = document.getElementById("window-status");
+                if (data.status === "success") {
+                    // Update the status text
+                    statusElement.innerText = `Window is currently: ${data.window_status}`;
+                } else {
+                    // Handle error in fetching status
+                    statusElement.innerText = "Error fetching window status.";
+                    console.error(data.message);
+                }
+            } catch (error) {
+                console.error("Error fetching window status:", error);
             }
-        } catch (error) {
-            console.error("Error fetching window status:", error);
         }
-    }
 
-    // Function to control the window (open/close)
-    async function controlWindow(action) {
-        try {
-            const response = await fetch(`/control/${action}`, { method: "POST" });
-            const data = await response.json();
-            alert(data.message); // Show the result in an alert
-            if (data.status === "success") {
-                fetchWindowStatus(); // Refresh the status after the action
+        // Function to control the window (open/close)
+        async function controlWindow(action) {
+            try {
+                const response = await fetch(`/control/${action}`, { method: "POST" });
+                const data = await response.json();
+                alert(data.message); // Show the result in an alert
+                if (data.status === "success") {
+                    fetchWindowStatus(); // Refresh the status after the action
+                }
+            } catch (error) {
+                console.error(`Error performing ${action} action:`, error);
             }
-        } catch (error) {
-            console.error(`Error performing ${action} action:`, error);
         }
-    }
 
-    // Fetch window status when the page loads
-    document.addEventListener("DOMContentLoaded", fetchWindowStatus);
+        // Fetch window status when the page loads
+        document.addEventListener("DOMContentLoaded", fetchWindowStatus);
 
         // Real-time date and time
         function updateDateTime() {
