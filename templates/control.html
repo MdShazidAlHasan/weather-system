@@ -4,17 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Control Page</title>
-    <!-- <link rel="stylesheet" href="/static/style2.css"> Include external CSS -->
+    <!-- Include FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        header{
+        header {
             top: 10px;
             position: absolute;
         }
+
         body {
             font-family: Arial, sans-serif;
             background: url('/static/img.jpg') no-repeat center center/cover;
             text-align: center;
-            color:white;
+            color: white;
             padding: 0;
             margin: 0;
             height: 100vh;
@@ -67,17 +69,16 @@
             position: absolute;
             bottom: 10px;
             font-size: 0.9rem;
-
         }
     </style>
 </head>
 <body>
     <header>
         <h1><i class="fas fa-thermometer-half"></i> Real-Time Sensor Dashboard</h1>
-	    <div id="date-time"></div>
+        <div id="date-time"></div>
     </header>
     <h1>Window Control</h1>
-        <p id="window-status">Loading window status...</p>
+    <p id="window-status">Loading window status...</p>
     <div class="button-container">
         <button id="open-button">Open</button>
         <button id="close-button">Close</button>
@@ -86,41 +87,41 @@
         © MechaTronics Project Group-10
     </footer>
     <script>
-         // Handle Open button click
+        // Handle Open button click
         document.getElementById("open-button").addEventListener("click", async () => {
             try {
-                const response = await fetch("/control/open", {
-                    method: "POST",
-                });
-                
+                const response = await fetch("/control/open", { method: "POST" });
+                const data = await response.json();
+                alert(data.message); // Display server response
+                if (data.status === "success") fetchWindowStatus(); // Refresh status
             } catch (error) {
                 console.error("Error:", error);
-                alert("An error occurred.");
+                alert("An error occurred while opening the window.");
             }
         });
 
         // Handle Close button click
         document.getElementById("close-button").addEventListener("click", async () => {
             try {
-                const response = await fetch("/control/close", {
-                    method: "POST",
-                });
+                const response = await fetch("/control/close", { method: "POST" });
+                const data = await response.json();
+                alert(data.message); // Display server response
+                if (data.status === "success") fetchWindowStatus(); // Refresh status
             } catch (error) {
                 console.error("Error:", error);
-                
+                alert("An error occurred while closing the window.");
             }
         });
+
         // Function to fetch the current window status
         async function fetchWindowStatus() {
             try {
-                const response = await fetch('/control/status'); // GET request to /control/status
+                const response = await fetch("/control/status");
                 const data = await response.json();
                 const statusElement = document.getElementById("window-status");
                 if (data.status === "success") {
-                    // Update the status text
                     statusElement.innerText = `Window is currently: ${data.window_status}`;
                 } else {
-                    // Handle error in fetching status
                     statusElement.innerText = "Error fetching window status.";
                     console.error(data.message);
                 }
@@ -129,33 +130,19 @@
             }
         }
 
-        // Function to control the window (open/close)
-        async function controlWindow(action) {
-            try {
-                const response = await fetch(`/control/${action}`, { method: "POST" });
-                const data = await response.json();
-                alert(data.message); // Show the result in an alert
-                if (data.status === "success") {
-                    fetchWindowStatus(); // Refresh the status after the action
-                }
-            } catch (error) {
-                console.error(`Error performing ${action} action:`, error);
-            }
-        }
-
-        // Fetch window status when the page loads
-        document.addEventListener("DOMContentLoaded", fetchWindowStatus);
-
         // Real-time date and time
         function updateDateTime() {
             const now = new Date();
             const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
-            const dateTimeString = now.toLocaleDateString('en-US', options);
+            const dateTimeString = now.toLocaleString('en-US', options);
             document.getElementById("date-time").textContent = dateTimeString;
         }
 
-        setInterval(updateDateTime, 1000);
-        updateDateTime();
+        setInterval(updateDateTime, 1000); // Update every second
+        updateDateTime(); // Initial call
+
+        // Fetch window status when the page loads
+        document.addEventListener("DOMContentLoaded", fetchWindowStatus);
     </script>
 </body>
 </html>
