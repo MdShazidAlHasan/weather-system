@@ -92,7 +92,6 @@
             try {
                 const response = await fetch("/control/open", { method: "POST" });
                 const data = await response.json();
-                alert(data.message); // Display server response
                 if (data.status === "success") fetchWindowStatus(); // Refresh status
             } catch (error) {
                 console.error("Error:", error);
@@ -105,7 +104,6 @@
             try {
                 const response = await fetch("/control/close", { method: "POST" });
                 const data = await response.json();
-                alert(data.message); // Display server response
                 if (data.status === "success") fetchWindowStatus(); // Refresh status
             } catch (error) {
                 console.error("Error:", error);
