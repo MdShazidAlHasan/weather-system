@@ -87,7 +87,6 @@
     </footer>
     <script>
        async function fetchWindowStatus() {
-        console.log("entered")
         try {
             const response = await fetch('/control/status'); // GET request to /control/status
             const data = await response.json();
@@ -104,6 +103,7 @@
             console.error("Error fetching window status:", error);
         }
     }
+    document.addEventListener("DOMContentLoaded", fetchWindowStatus);
 
         // Handle Open button click
         document.getElementById("open-button").addEventListener("click", async () => {
