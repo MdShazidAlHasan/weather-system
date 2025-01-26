@@ -110,7 +110,7 @@
             try {
                 const response = await fetch("/control/close", { method: "POST" });
                 const data = await response.json();
-                if (data.status === "success") fetchWindowStatus(); // Refresh status
+                location.reload() // Refresh status
             } catch (error) {
                 console.error("Error:", error);
                 alert("An error occurred while closing the window.");
