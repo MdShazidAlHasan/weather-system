@@ -8,7 +8,7 @@ def rotate_360_clockwise():
     GPIO.setup(servo_pin, GPIO.OUT)
     pwm = GPIO.PWM(servo_pin, 50)  # 50Hz frequency
     pwm.start(0)  # Start with a duty cycle of 0
-    pwm.ChangeDutyCycle(8)  # Adjust duty cycle for clockwise rotation
+    pwm.ChangeDutyCycle(10)  # Adjust duty cycle for clockwise rotation
     time.sleep(0.3)  # Rotate for 0.2 seconds
     pwm.ChangeDutyCycle(0)  # Stop servo
     pwm.stop()
