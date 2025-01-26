@@ -96,12 +96,26 @@ header h1 {
     color: #9c27b0;
 }
 
+button {
+    font-size: 1.2rem;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.3s;
+}
+.control-button{
+    z-index: 2;
+    text-align: center;
+}
+
 /* Footer */
 footer {
     z-index: 2;
     text-align: center;
     padding: 1rem;
     /* background-color: rgba(0, 0, 0, 0.6); */
+    font-size: 1.8rem;
     color: white;
     width: 100%;
     margin-top: auto; /* Ensures footer stays at the bottom */
