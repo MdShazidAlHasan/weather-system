@@ -82,16 +82,22 @@ async def control(request: Request):
 
 @app.post("/control/open")
 async def open_control():
+    global not_open
     try:
-        await rotate_360_counterclockwise()  # Call the rotation function for "Open"
+        if not not_open:
+            not_open = 1
+            await rotate_360_counterclockwise()  # Call the rotation function for "Open"
         return {"status": "success", "message": "Rotated counterclockwise (Open)"}
     except Exception as e:
         return {"status": "error", "message": str(e)}
 
 @app.post("/control/close")
 async def close_control():
+    global not_open 
     try:
-        await rotate_360_clockwise()  # Call the rotation function for "Close"
+        if not_open:
+            not_open = 0
+            await rotate_360_clockwise()  # Call the rotation function for "Close"
         return {"status": "success", "message": "Rotated clockwise (Close)"}
     except Exception as e:
         return {"status": "error", "message": str(e)}
