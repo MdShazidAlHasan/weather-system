@@ -105,6 +105,7 @@ button {
     transition: transform 0.2s, background-color 0.3s;
 }
 .control-button{
+    margin-top: 30px;
     z-index: 2;
     text-align: center;
 }

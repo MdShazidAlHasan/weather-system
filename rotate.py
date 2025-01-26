@@ -12,7 +12,7 @@ def rotate_360_clockwise():
     time.sleep(0.3)  # Rotate for 0.2 seconds
     pwm.ChangeDutyCycle(0)  # Stop servo
     pwm.stop()
-    GPIO.cleanup()  # Clean up GPIO settings
+    
 
 
 #open 
@@ -26,4 +26,3 @@ def rotate_360_counterclockwise():
     time.sleep(.3)  # Rotate for 0.2 seconds
     pwm.ChangeDutyCycle(0)  # Stop servo
     pwm.stop()
-    GPIO.cleanup()  # Clean up GPIO settings
