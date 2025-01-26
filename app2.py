@@ -101,3 +101,13 @@ async def close_control():
         return {"status": "success", "message": "Rotated clockwise (Close)"}
     except Exception as e:
         return {"status": "error", "message": str(e)}
+    
+    
+@app.get("/control/status")
+async def control_status():
+    global not_open
+    try:
+        status = "Open" if not_open else "Closed"
+        return {"status": "success", "window_status": status}
+    except Exception as e:
+        return {"status": "error", "message": str(e)}
