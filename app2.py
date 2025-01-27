@@ -51,7 +51,7 @@ async def monitor_sensors(websocket: WebSocket):
 
         # Send email alert if flame is detected
         if flame_status != "No Flame" and not email_sent:
-            await send_email("mdshazid121@gmail.com", "Flame Detected", "There is a serious issue")
+            await send_email("mdshazid121@gmail.com", "Fire Detected", "I wanted to let you know that there's a fire at my house right now. Please contact the fire department and rescue team. I'll update you soon.")
             email_sent = True
         # Reset email_sent flag if flame is no longer detected
         if flame_status == "No Flame":
