@@ -1,19 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sensor Dashboard</title>
-    <link rel="stylesheet" href="/static/style2.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+    <title>Smart Home Monitoring</title>
+    <link rel="stylesheet" href="/static/dashboard.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
+
 <body>
-    <div id="earth"></div>
+    <!-- Floating particles -->
+    <div class="particle" style="width: 10px; height: 10px; top: 20%; left: 10%;"></div>
+    <div class="particle" style="width: 15px; height: 15px; top: 60%; left: 80%; animation-delay: 2s;"></div>
+    <div class="particle" style="width: 8px; height: 8px; top: 80%; left: 20%; animation-delay: 4s;"></div>
+    <div class="particle" style="width: 12px; height: 12px; top: 40%; left: 70%; animation-delay: 1s;"></div>
+    <div class="particle" style="width: 10px; height: 10px; top: 70%; left: 50%; animation-delay: 3s;"></div>
+
     <header>
-        <h1><i class="fas fa-thermometer-half"></i> Real-Time Sensor Dashboard</h1>
-	    <div id="date-time"></div>
+        <div class="header-content">
+            <div class="header-title">
+                <i class="fas fa-home"></i>
+                <span>Smart Home Monitoring</span>
+            </div>
+            <div id="date-time"></div>
+        </div>
     </header>
+
     <main>
         <div class="dashboard">
             <div class="card temperature">
@@ -32,24 +46,36 @@
                 <p id="flame_status">--</p>
             </div>
             <div class="card gas-status">
-                <i class="fas fa-gas-pump icon"></i>
+                <i class="fas fa-wind icon"></i>
                 <h2>Gas Status</h2>
                 <p id="gas_status">--</p>
             </div>
         </div>
-        
+
+        <!-- Replace the existing control-button section -->
+        <div class="control-button">
+            <button onclick="location.href='/control'" style="margin-right: 1rem;">
+                <i class="fas fa-sliders-h"></i>
+                Control Panel
+            </button>
+            <button onclick="location.href='/video'"
+                style="background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);">
+                <i class="fas fa-video"></i>
+                Camera Feed
+            </button>
+        </div>
     </main>
-    <div class="control-button">
-        <button onclick="location.href='/control'">Go to Control Page</button>
-    </div>
+
     <footer>
-        <p>&copy; MechaTronics Project Group-10</p>
+        <p>&copy; 2026 Micro Controller Project | Smart Home Monitoring System</p>
     </footer>
 
     <script>
-        const ws = new WebSocket("ws://192.168.1.11:8000/ws");
+        const ws = new WebSocket(`ws://${window.location.host}/ws`);
 
-        ws.onopen = () => console.log("WebSocket connection opened");
+        ws.onopen = () => {
+            console.log("✓ WebSocket connected");
+        };
 
         ws.onmessage = (event) => {
             const data = JSON.parse(event.data);
@@ -59,18 +85,53 @@
                 return;
             }
 
+            // Update temperature
             document.getElementById("temperature").textContent = `${data.temperature} °C`;
+
+            // Update humidity
             document.getElementById("humidity").textContent = `${data.humidity} %`;
-            document.getElementById("flame_status").textContent = data.flame_status;
-            document.getElementById("gas_status").textContent = data.gas_status;
+
+            // Update flame status with indicator
+            const flameElement = document.getElementById("flame_status");
+            if (data.flame_status === "Flame Detected") {
+                flameElement.innerHTML = '<span class="status-indicator status-danger"></span>Flame Detected!';
+                flameElement.style.color = '#f87171';
+            } else {
+                flameElement.innerHTML = '<span class="status-indicator status-ok"></span>No Flame';
+                flameElement.style.color = '#4ade80';
+            }
+
+            // Update gas status with indicator
+            const gasElement = document.getElementById("gas_status");
+            if (data.gas_status === "Gas detected!") {
+                gasElement.innerHTML = '<span class="status-indicator status-danger"></span>Gas Detected!';
+                gasElement.style.color = '#f87171';
+            } else {
+                gasElement.innerHTML = '<span class="status-indicator status-ok"></span>No Gas';
+                gasElement.style.color = '#4ade80';
+            }
         };
 
-        ws.onclose = () => console.error("WebSocket connection closed");
+        ws.onerror = (error) => {
+            console.error("WebSocket error:", error);
+        };
+
+        ws.onclose = () => {
+            console.error("WebSocket disconnected");
+        };
 
         // Real-time date and time
         function updateDateTime() {
             const now = new Date();
-            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+            const options = {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            };
             const dateTimeString = now.toLocaleDateString('en-US', options);
             document.getElementById("date-time").textContent = dateTimeString;
         }
@@ -79,8 +140,5 @@
         updateDateTime();
     </script>
 </body>
+
 </html>
-
-
-           
-

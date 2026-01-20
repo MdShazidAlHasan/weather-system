@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Camera Feed</title>
+    <link rel="stylesheet" href="/static/control.css">
+    <link rel="stylesheet" href="/static/video.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Floating particles -->
+    <div class="particle" style="width: 10px; height: 10px; top: 20%; left: 10%;"></div>
+    <div class="particle" style="width: 15px; height: 15px; top: 60%; left: 80%; animation-delay: 2s;"></div>
+    <div class="particle" style="width: 8px; height: 8px; top: 80%; left: 20%; animation-delay: 4s;"></div>
+    <div class="particle" style="width: 12px; height: 12px; top: 40%; left: 70%; animation-delay: 1s;"></div>
+
+    <header>
+        <div class="header-content">
+            <i class="fas fa-video"></i>
+            <span>Live Camera Feed</span>
+        </div>
+    </header>
+
+    <main>
+        <div class="video-container">
+            <h2 class="video-title">Security Camera</h2>
+            
+            <div class="video-wrapper">
+                <img id="video-stream" 
+                     src="/video_feed" 
+                     alt="Live video stream"
+                     onerror="handleStreamError()">
+            </div>
+
+            <div class="video-status">
+                <span id="stream-status" class="status-live">● LIVE</span>
+            </div>
+
+            <div class="video-controls">
+                <button class="video-btn" onclick="refreshStream()">
+                    <i class="fas fa-sync-alt"></i>
+                    Refresh
+                </button>
+                <button class="video-btn" onclick="toggleFullscreen()">
+                    <i class="fas fa-expand"></i>
+                    Fullscreen
+                </button>
+            </div>
+
+            <div class="video-info">
+                <i class="fas fa-info-circle"></i>
+                <strong>Note:</strong> Security camera is not available
+            </div>  
+        </div>
+    </main>
+    <!-- Navigation buttons -->
+            <div class="navigation-buttons">
+                <button class="nav-btn nav-btn-dashboard" onclick="location.href='/'">
+                    <i class="fas fa-home"></i>
+                    Dashboard
+                </button>
+                <button class="nav-btn nav-btn-control" onclick="location.href='/control'">
+                    <i class="fas fa-sliders-h"></i>
+                    Control Panel
+                </button>
+            </div>
+
+    <footer>
+        <p>&copy; 2026 MechaTronics Project Group-10 | Smart Home Monitoring System</p>
+    </footer>
+
+    <script>
+        let retryCount = 0;
+        const maxRetries = 3;
+
+        function handleStreamError() {
+            const statusElement = document.getElementById('stream-status');
+            statusElement.innerHTML = '● OFFLINE';
+            statusElement.classList.remove('status-live');
+            statusElement.classList.add('status-offline');
+            
+            // Auto-retry
+            if (retryCount < maxRetries) {
+                retryCount++;
+                console.log(`Retrying... (${retryCount}/${maxRetries})`);
+                setTimeout(refreshStream, 2000);
+            }
+        }
+
+        function refreshStream() {
+            const img = document.getElementById('video-stream');
+            const statusElement = document.getElementById('stream-status');
+            
+            // Add timestamp to force refresh
+            img.src = '/video_feed?' + new Date().getTime();
+            
+            statusElement.innerHTML = '● CONNECTING...';
+            statusElement.style.color = '#fbbf24';
+            
+            retryCount = 0;
+            
+            // Check if stream loaded successfully
+            img.onload = function() {
+                statusElement.innerHTML = '● LIVE';
+                statusElement.classList.remove('status-offline');
+                statusElement.classList.add('status-live');
+            };
+        }
+
+        function toggleFullscreen() {
+            const videoWrapper = document.querySelector('.video-wrapper');
+            
+            if (!document.fullscreenElement) {
+                videoWrapper.requestFullscreen().catch(err => {
+                    console.error('Error attempting to enable fullscreen:', err);
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+        // Auto-refresh check every 10 seconds
+        setInterval(() => {
+            const img = document.getElementById('video-stream');
+            if (img.complete && img.naturalHeight === 0) {
+                console.log('Stream appears dead, attempting refresh...');
+                refreshStream();
+            }
+        }, 10000);
+
+        // Initial status check
+        window.addEventListener('load', () => {
+            const img = document.getElementById('video-stream');
+            setTimeout(() => {
+                if (img.complete && img.naturalHeight === 0) {
+                    handleStreamError();
+                }
+            }, 3000);
+        });
+    </script>
+</body>
+</html>

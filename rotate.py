@@ -1,28 +1,37 @@
-import RPi.GPIO as GPIO
+# rotate.py
+import sensor_data
 import time
 
-#close
 def rotate_360_clockwise():
-    servo_pin = 21  # GPIO pin connected to servo
-    GPIO.setmode(GPIO.BCM)
-    GPIO.setup(servo_pin, GPIO.OUT)
-    pwm = GPIO.PWM(servo_pin, 50)  # 50Hz frequency
-    pwm.start(0)  # Start with a duty cycle of 0
-    pwm.ChangeDutyCycle(9)  # Adjust duty cycle for clockwise rotation
-    time.sleep(0.3)  # Rotate for 0.2 seconds
-    pwm.ChangeDutyCycle(0)  # Stop servo
-    pwm.stop()
+    """Close window"""
+    print("Attempting to close window...")
     
+    # Use sensor_data.arduino_reader (not just arduino_reader)
+    if sensor_data.arduino_reader and sensor_data.arduino_reader.connected:
+        success = sensor_data.arduino_reader.close_window()
+        time.sleep(0.5)
+        print(f"Close command sent: {success}")
+        return success
+    
+    print("Cannot close: Arduino not connected")
+    print(f"Arduino reader exists: {sensor_data.arduino_reader is not None}")
+    if sensor_data.arduino_reader:
+        print(f"Arduino connected status: {sensor_data.arduino_reader.connected}")
+    return False
 
-
-#open 
 def rotate_360_counterclockwise():
-    servo_pin = 21  # GPIO pin connected to servo
-    GPIO.setmode(GPIO.BCM)
-    GPIO.setup(servo_pin, GPIO.OUT)
-    pwm = GPIO.PWM(servo_pin, 50)  # 50Hz frequency
-    pwm.start(0)  # Start with a duty cycle of 0
-    pwm.ChangeDutyCycle(5)  # Adjust duty cycle for counterclockwise rotation
-    time.sleep(.3)  # Rotate for 0.2 seconds
-    pwm.ChangeDutyCycle(0)  # Stop servo
-    pwm.stop()
+    """Open window"""
+    print("Attempting to open window...")
+    
+    # Use sensor_data.arduino_reader (not just arduino_reader)
+    if sensor_data.arduino_reader and sensor_data.arduino_reader.connected:
+        success = sensor_data.arduino_reader.open_window()
+        time.sleep(0.5)
+        print(f"Open command sent: {success}")
+        return success
+    
+    print("Cannot open: Arduino not connected")
+    print(f"Arduino reader exists: {sensor_data.arduino_reader is not None}")
+    if sensor_data.arduino_reader:
+        print(f"Arduino connected status: {sensor_data.arduino_reader.connected}")
+    return False

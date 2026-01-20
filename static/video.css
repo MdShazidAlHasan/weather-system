@@ -1,0 +1,336 @@
+/* video.css - Video Page Styles */
+
+.video-container {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.video-title {
+    text-align: center;
+    color: #333;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.video-wrapper {
+    border-radius: 15px;
+    overflow: hidden;
+    background: #000;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    position: relative;
+}
+
+.video-wrapper img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.video-status {
+    text-align: center;
+    margin: 1rem 0;
+    padding: 0.75rem;
+    background: linear-gradient(135deg, #667eea10 0%, #764ba210 100%);
+    border-radius: 10px;
+}
+
+.status-live {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #4ade80;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.status-live::before {
+    content: '';
+    width: 10px;
+    height: 10px;
+    background: #4ade80;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #4ade80;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.status-offline {
+    color: #f87171;
+}
+
+.status-offline::before {
+    background: #f87171;
+    box-shadow: 0 0 10px #f87171;
+    animation: none;
+}
+
+.video-controls {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+    margin: 1rem 0;
+    flex-wrap: wrap;
+}
+
+.video-btn {
+    padding: 0.625rem 1.25rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.video-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+}
+
+.video-btn:active {
+    transform: translateY(0);
+}
+
+.video-info {
+    text-align: center;
+    margin-top: 1rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    color: #666;
+}
+
+.video-info i {
+    color: #667eea;
+    margin-right: 0.5rem;
+}
+
+.video-feed-button {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.video-feed-button button {
+    padding: 0.625rem 1.75rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 20px rgba(168, 85, 247, 0.5);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.video-feed-button button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(168, 85, 247, 0.7);
+}
+
+.video-feed-button button:active {
+    transform: translateY(0);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .video-container {
+        padding: 1.25rem;
+    }
+
+    .video-title {
+        font-size: 1.4rem;
+        margin-bottom: 1.25rem;
+    }
+
+    .video-status {
+        padding: 0.625rem;
+    }
+
+    .status-live {
+        font-size: 0.85rem;
+    }
+
+    .video-controls {
+        gap: 0.5rem;
+    }
+
+    .video-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.85rem;
+    }
+
+    .video-info {
+        padding: 0.875rem;
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .video-container {
+        padding: 1rem;
+    }
+
+    .video-title {
+        font-size: 1.25rem;
+    }
+
+    .video-btn {
+        padding: 0.5rem 0.875rem;
+        font-size: 0.8rem;
+    }
+
+    .video-feed-button button {
+        padding: 0.5rem 1.5rem;
+        font-size: 0.85rem;
+        width: 100%;
+        max-width: 250px;
+    }
+}
+
+/* Short screens */
+@media (max-height: 700px) {
+    .video-container {
+        padding: 1rem;
+    }
+
+    .video-title {
+        font-size: 1.4rem;
+        margin-bottom: 1rem;
+    }
+
+    .video-status {
+        margin: 0.75rem 0;
+    }
+
+    .video-controls {
+        margin: 0.75rem 0;
+    }
+
+    .video-info {
+        padding: 0.75rem;
+        font-size: 0.8rem;
+    }
+}
+
+/* video.css - Add these styles at the end */
+
+/* Navigation buttons */
+.navigation-buttons {
+    display: flex;
+    gap: 0.875rem;
+    justify-content: center;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.nav-btn {
+    padding: 0.75rem 2rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    color: white;
+    flex: 1;
+    min-width: 150px;
+    max-width: 200px;
+    justify-content: center;
+}
+
+.nav-btn i {
+    font-size: 1.1em;
+}
+
+.nav-btn-dashboard {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.nav-btn-dashboard:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+}
+
+.nav-btn-dashboard:active {
+    transform: translateY(-1px);
+}
+
+.nav-btn-control {
+    background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+    box-shadow: 0 6px 20px rgba(74, 222, 128, 0.4);
+}
+
+.nav-btn-control:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(74, 222, 128, 0.6);
+}
+
+.nav-btn-control:active {
+    transform: translateY(-1px);
+}
+
+/* Responsive Design for Navigation Buttons */
+@media (max-width: 768px) {
+    .navigation-buttons {
+        gap: 0.75rem;
+        margin-top: 1.25rem;
+    }
+
+    .nav-btn {
+        padding: 0.625rem 1.5rem;
+        font-size: 0.9rem;
+        min-width: 140px;
+    }
+}
+
+@media (max-width: 480px) {
+    .navigation-buttons {
+        flex-direction: column;
+        gap: 0.625rem;
+    }
+
+    .nav-btn {
+        width: 100%;
+        max-width: 100%;
+        padding: 0.75rem 1.5rem;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-height: 700px) {
+    .navigation-buttons {
+        margin-top: 1rem;
+        gap: 0.625rem;
+    }
+
+    .nav-btn {
+        padding: 0.625rem 1.5rem;
+        font-size: 0.85rem;
+    }
+}
